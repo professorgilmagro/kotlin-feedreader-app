@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    tools:context=".MainActivity">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="vertical"
+       android:padding="16dp"
+       android:layout_height="wrap_content">
+
+       <android.support.v7.widget.AppCompatImageView
+           android:id="@+id/imgArea"
+           android:layout_width="match_parent"
+           android:layout_height="150dp"
+           android:adjustViewBounds="false"
+           android:scaleType="centerCrop"/>
+
+       <android.support.v7.widget.AppCompatCheckedTextView
+           android:id="@+id/txtTitulo"
+           android:layout_marginTop="16dp"
+           android:text="@string/title"
+           android:textAlignment="center"
+           android:textAppearance="@android:style/TextAppearance.Large"
+           android:textColor="@color/colorPrimaryDark"
+           android:textStyle="bold"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
+       <TableLayout
+           android:layout_width="match_parent"
+           android:orientation="horizontal"
+           android:stretchColumns="0,2"
+           android:layout_height="wrap_content">
+
+           <TableRow
+               android:gravity="center"
+               android:layout_height="wrap_content"
+               android:layout_width="match_parent">
+
+               <TextView
+                   android:id="@+id/txtAutor"
+                   android:gravity="left"
+                   android:text="@string/actor"
+                   android:textAppearance="@android:style/TextAppearance.Small"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"/>
+
+               <TextView
+                   android:id="@+id/txtPublishedDate"
+                   android:gravity="right"
+                   android:text="@string/date_pub"
+                   android:textAppearance="@android:style/TextAppearance.Small"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"/>
+           </TableRow>
+
+       </TableLayout>
+
+       <Button
+           android:id="@+id/btnSeeMore"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="16dp"
+           android:textColor="@android:color/white"
+           android:background="@color/colorAccent"
+           android:text="@string/see_more"/>
+
+   </LinearLayout>
+
+</android.support.v7.widget.CardView>
