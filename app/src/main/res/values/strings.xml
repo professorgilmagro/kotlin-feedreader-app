@@ -4,4 +4,6 @@
     <string name="actor">Autor</string>
     <string name="date_pub">Data Pub</string>
     <string name="see_more">Ver mais</string>
+    <string name="add">adicionar</string>
+    <string name="exit">Sair</string>
 </resources>
