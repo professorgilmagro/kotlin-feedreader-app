@@ -1,19 +1,20 @@
 package br.com.codespace.kfeedreader
 
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import br.com.codespace.kfeedreader.adapter.ArticleItemAdapter
+import br.com.codespace.kfeedreader.domain.ArticleItem
 import com.pkmmte.pkrss.Article
 import com.pkmmte.pkrss.Callback
 import com.pkmmte.pkrss.PkRSS
 
 class MainActivity : AppCompatActivity(), Callback {
-    private lateinit var listView: RecyclerView
-    private var listItems = arrayListOf<Item>()
+    private lateinit var listArticleView: RecyclerView
+    private var listArticleItems = arrayListOf<ArticleItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +22,11 @@ class MainActivity : AppCompatActivity(), Callback {
     }
 
     override fun onResume() {
-        listView = findViewById(R.id.rvContent)
-        listView.layoutManager = LinearLayoutManager(this)
-        listView.adapter = ItemAdapter(listItems, this)
+        listArticleView = findViewById(R.id.rvArticle)
+        listArticleView.layoutManager = LinearLayoutManager(this)
+        listArticleView.adapter = ArticleItemAdapter(listArticleItems, this)
 
-        PkRSS.with(this).load("https://rss.tecmundo.com.br/feed").callback(this).async()
+        PkRSS.with(this).load("https://olhardigital.com.br/rss").callback(this).async()
         super.onResume()
     }
 
@@ -54,14 +55,11 @@ class MainActivity : AppCompatActivity(), Callback {
     }
 
     override fun onLoaded(newArticles: MutableList<Article>?) {
-        listItems.clear()
-        newArticles?.mapTo(listItems) {
-            var article = it
-            Item(it.title, it.author, it.date, it.source, it.enclosure.url)
+        listArticleItems.clear()
+        newArticles?.mapTo(listArticleItems) {
+            ArticleItem.createFromArticle(it)
         }
 
-        listView.adapter.notifyDataSetChanged()
+        listArticleView.adapter.notifyDataSetChanged()
     }
-
-    data class Item(val titulo: String, val autor: String, val data: Long, val link: Uri, val imagem: String)
 }

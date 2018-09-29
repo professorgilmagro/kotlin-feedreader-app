@@ -33,6 +33,10 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.pkmmte.pkrss:pkrss:1.2'
-    implementation 'com.squareup.okhttp:okhttp:1.6.0'
-    implementation 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
+}
+
+androidExtensions {
+    experimental = true
 }

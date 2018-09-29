@@ -1,4 +1,4 @@
-package br.com.codespace.kfeedreader
+package br.com.codespace.kfeedreader.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -6,20 +6,24 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import br.com.codespace.kfeedreader.task.DownloadImageTask
+import br.com.codespace.kfeedreader.R
+import br.com.codespace.kfeedreader.domain.ArticleItem
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ItemAdapter(val list: ArrayList<MainActivity.Item>, val context: Context) :
-        RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ArticleItemAdapter(private val list: ArrayList<ArticleItem>, private val context: Context) :
+        RecyclerView.Adapter<ArticleItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titulo: TextView = view.findViewById(R.id.txtTitulo)
         val autor: TextView = view.findViewById(R.id.txtAutor)
         val data: TextView = view.findViewById(R.id.txtPublishedDate)
-        val imagem: ImageView = view.findViewById(R.id.imgArea)
-        val btnVerMais: TextView = view.findViewById(R.id.btnSeeMore)
+        val imagem = view.findViewById(R.id.imgArea) as ImageView
+        val btnVerMais = view.findViewById(R.id.btnSeeMore) as Button
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -38,7 +42,9 @@ class ItemAdapter(val list: ArrayList<MainActivity.Item>, val context: Context) 
             context.startActivity(intent)
         }
 
-        DownloadImageTask(holder.imagem).execute(item.imagem)
+        if (item.imagem != null) {
+            DownloadImageTask(holder?.imagem).execute(item.imagem)
+        }
     }
 
     override fun getItemCount(): Int = list.size

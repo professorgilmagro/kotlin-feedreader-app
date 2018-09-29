@@ -60,6 +60,20 @@
                    android:layout_height="wrap_content"/>
            </TableRow>
 
+           <TableRow
+               android:gravity="center"
+               android:layout_height="wrap_content"
+               android:layout_width="match_parent">
+
+               <TextView
+                   android:id="@+id/txtDescription"
+                   android:text="@string/description"
+                   android:textAppearance="@android:style/TextAppearance.Small"
+                   android:textColor="@color/colorPrimary"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+           </TableRow>
+
        </TableLayout>
 
        <Button
