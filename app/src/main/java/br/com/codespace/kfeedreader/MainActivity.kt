@@ -1,16 +1,16 @@
 package br.com.codespace.kfeedreader
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
+import android.widget.TextView
 import br.com.codespace.kfeedreader.adapter.ArticleItemAdapter
 import br.com.codespace.kfeedreader.domain.ArticleItem
 import com.pkmmte.pkrss.Article
@@ -21,13 +21,20 @@ class MainActivity : AppCompatActivity(), Callback {
     private lateinit var listArticleView: RecyclerView
     private lateinit var prefs: SharedPreferences
     private lateinit var sourceFeeds: Array<String>
+    private lateinit var swipeRefresh:SwipeRefreshLayout
     private var listArticleItems = arrayListOf<ArticleItem>()
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         sourceFeeds = resources.getStringArray(R.array.source_feeds)
+        swipeRefresh = findViewById(R.id.main_activity_swipe_layout)
+        swipeRefresh.setColorSchemeColors(R.color.orange, R.color.green, R.color.blue)
+        swipeRefresh.setOnRefreshListener {
+            onResume()
+        }
     }
 
     override fun onResume() {
@@ -36,6 +43,7 @@ class MainActivity : AppCompatActivity(), Callback {
         listArticleView.adapter = ArticleItemAdapter(listArticleItems, this)
 
         val url = prefs.getString("sourceUrl", "https://rss.tecmundo.com.br/feed")
+        this.title = prefs.getString("sourceName", getString(R.string.app_name))
         PkRSS.with(this).load(url).callback(this).async()
         super.onResume()
     }
@@ -55,6 +63,7 @@ class MainActivity : AppCompatActivity(), Callback {
 
             add(0, sourceFeeds.size, Menu.NONE, R.string.exit)
         }
+
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -65,14 +74,16 @@ class MainActivity : AppCompatActivity(), Callback {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         for (itemIndex in 0 until sourceFeeds.count()) {
             if (item?.itemId == itemIndex) {
-                val url = sourceFeeds[itemIndex].split("->")[1]
+                val (name, url) = sourceFeeds[itemIndex].split("->")
                 prefs.edit().putString("sourceUrl", url.trim()).apply()
+                prefs.edit().putString("sourceName", name.trim()).apply()
                 onResume()
                 break
             }
         }
 
-        if (item?.itemId == sourceFeeds.count()) {
+        // ação para encerrar a aplicação
+        if (item?.itemId == sourceFeeds.size) {
             finish()
         }
 
@@ -80,10 +91,11 @@ class MainActivity : AppCompatActivity(), Callback {
     }
 
     override fun onLoadFailed() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        swipeRefresh.isRefreshing = false
     }
 
     override fun onPreload() {
+        swipeRefresh.isRefreshing = true
         listArticleItems.clear()
     }
 
@@ -92,6 +104,8 @@ class MainActivity : AppCompatActivity(), Callback {
             ArticleItem.createFromArticle(it)
         }
 
+        swipeRefresh.isRefreshing = false
         listArticleView.adapter.notifyDataSetChanged()
     }
+
 }

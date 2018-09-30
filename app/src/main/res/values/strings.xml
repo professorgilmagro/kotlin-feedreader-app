@@ -7,4 +7,6 @@
     <string name="add">adicionar</string>
     <string name="exit">Sair</string>
     <string name="description">Descrição</string>
+    <string name="refresh">Atualizar</string>
+    <string name="loading">Carregando...</string>
 </resources>
