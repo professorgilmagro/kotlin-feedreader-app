@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="source_feeds">
+        <item> "Olhar Digital -> https://olhardigital.com.br/rss</item>
+        <item> "TechMundo -> https://rss.tecmundo.com.br/feed</item>
+        <item> "InfoAbril -> https://exame.abril.com.br/tecnologia/feed/</item>
+        <item> "Canaltech -> https://canaltech.com.br/rss/</item>
+        <item> "FeedBurnner -> https://feeds2.feedburner.com/profissionaisti</item>
+        <item> "Tech Radar -> https://www.techradar.com/rss/news/software</item>
+        <item> "Tech Republic -> https://www.techrepublic.com/rssfeeds/articles/</item>
+        <item> "UOL News -> http://rss.uol.com.br/feed/noticias.xml</item>
+        <item> "G1 -> http://pox.globo.com/rss/g1/</item>
+    </string-array>
+</resources>

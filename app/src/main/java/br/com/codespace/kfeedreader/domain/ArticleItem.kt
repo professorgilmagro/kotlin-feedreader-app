@@ -17,9 +17,13 @@ data class ArticleItem(
 
     companion object {
         fun createFromArticle(item:Article): ArticleItem {
-            var imgUrl = item.image.toString()
-            if (imgUrl.isEmpty()) {
-                imgUrl = item.enclosure.url
+            var imgUrl = item.image?.toString()
+            if (imgUrl != null && imgUrl.isEmpty()) {
+                imgUrl = item.enclosure?.url
+            }
+
+            if (imgUrl == null) {
+                imgUrl = ""
             }
 
             return ArticleItem(
@@ -27,8 +31,7 @@ data class ArticleItem(
                     item?.author,
                     item?.date,
                     item.source,
-                    Uri.parse(imgUrl),
-                    item.description
+                    Uri.parse(imgUrl)
             )
         }
     }

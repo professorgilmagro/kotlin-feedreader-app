@@ -42,8 +42,8 @@ class ArticleItemAdapter(private val list: ArrayList<ArticleItem>, private val c
             context.startActivity(intent)
         }
 
-        if (item.imagem != null) {
-            DownloadImageTask(holder?.imagem).execute(item.imagem)
+        if (item.imagem != null && !item.imagem.path.isEmpty()) {
+            DownloadImageTask(holder.imagem).execute(item.imagem)
         }
     }
 
