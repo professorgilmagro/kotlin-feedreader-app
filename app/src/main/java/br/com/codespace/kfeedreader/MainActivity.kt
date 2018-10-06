@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity(), Callback {
         sourceFeeds = resources.getStringArray(R.array.source_feeds)
         swipeRefresh = findViewById(R.id.main_activity_swipe_layout)
         swipeRefresh.setColorSchemeColors(R.color.orange, R.color.green, R.color.blue)
-        swipeRefresh.setOnRefreshListener {
-            onResume()
-        }
+        swipeRefresh.setOnRefreshListener{loadNews()}
+
+        loadNews()
     }
 
-    override fun onResume() {
+    private fun loadNews() {
         listArticleView = findViewById(R.id.rvArticle)
         listArticleView.layoutManager = LinearLayoutManager(this)
         listArticleView.adapter = ArticleItemAdapter(listArticleItems, this)
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), Callback {
         val url = prefs.getString("sourceUrl", "https://rss.tecmundo.com.br/feed")
         this.title = prefs.getString("sourceName", getString(R.string.app_name))
         PkRSS.with(this).load(url).callback(this).async()
-        super.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,8 +59,6 @@ class MainActivity : AppCompatActivity(), Callback {
                 val title = item.split("->")[0]
                 add(0, index, Menu.NONE, title.trim())
             }
-
-            add(0, sourceFeeds.size, Menu.NONE, R.string.exit)
         }
 
         return super.onPrepareOptionsMenu(menu)
@@ -77,7 +74,7 @@ class MainActivity : AppCompatActivity(), Callback {
                 val (name, url) = sourceFeeds[itemIndex].split("->")
                 prefs.edit().putString("sourceUrl", url.trim()).apply()
                 prefs.edit().putString("sourceName", name.trim()).apply()
-                onResume()
+                loadNews()
                 break
             }
         }

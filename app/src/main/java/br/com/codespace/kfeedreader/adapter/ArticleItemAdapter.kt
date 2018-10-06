@@ -11,12 +11,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import br.com.codespace.kfeedreader.task.DownloadImageTask
 import br.com.codespace.kfeedreader.R
+import br.com.codespace.kfeedreader.ReaderActivity
 import br.com.codespace.kfeedreader.domain.ArticleItem
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ArticleItemAdapter(private val list: ArrayList<ArticleItem>, private val context: Context) :
         RecyclerView.Adapter<ArticleItemAdapter.ItemViewHolder>() {
+
+    companion object {
+        val NEWSTEXT = "br.com.codespace.NEWSTEXT"
+    }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titulo: TextView = view.findViewById(R.id.txtTitulo)
@@ -38,7 +43,17 @@ class ArticleItemAdapter(private val list: ArrayList<ArticleItem>, private val c
         holder.data.text = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR")).format(item.data)
 
         holder.btnVerMais.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, item.link)
+            val intent = Intent()
+            intent.apply {
+                if (item?.descricao.isEmpty()) {
+                    action = Intent.ACTION_VIEW
+                    data = item.link
+                } else {
+                    setClass(context, ReaderActivity::class.java)
+                    putExtra(NEWSTEXT, item)
+                }
+            }
+
             context.startActivity(intent)
         }
 

@@ -9,4 +9,5 @@
     <string name="description">Descrição</string>
     <string name="refresh">Atualizar</string>
     <string name="loading">Carregando...</string>
+    <string name="see_article_on_website">Ver artigo no site</string>
 </resources>
